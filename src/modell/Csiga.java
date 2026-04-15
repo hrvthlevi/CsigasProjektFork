@@ -1,5 +1,7 @@
 package modell;
 
+import java.util.Objects;
+
 public class Csiga {
     private static final char UT_SZIMPLA = '-';
     private static final char UT_DUPLA = '=';
@@ -32,6 +34,9 @@ public class Csiga {
     private String megtettUt;
     private boolean gyorsito;
 
+    public Csiga(){
+       this(RESET);
+    }
     public Csiga(String szin) {
         this.szin = szin;
         setSzinKod();
@@ -75,7 +80,34 @@ public class Csiga {
                 break;
         }
     }
-    
+
+    @Override
+    public String toString() {
+        return "Csiga{" + "szin=" + szin + ", szinKod=" + szinKod + ", megtettUt=" + megtettUt + ", gyorsito=" + gyorsito + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.szin);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Csiga other = (Csiga) obj;
+        return Objects.equals(this.szin, other.szin);
+    }
+
     public void megy(){
         int tav = (int)(Math.random()*4);
         tav = gyorsito ? tav*2 : tav;
