@@ -3,6 +3,7 @@ package modell;
 import java.util.Objects;
 
 public class Csiga {
+
     private static final char UT_SZIMPLA = '-';
     private static final char UT_DUPLA = '=';
     private static final String ABRA_CSIGA_EMOJI = "\ud83d\udc0c";
@@ -23,28 +24,29 @@ public class Csiga {
     public static String getABRA_2() {
         return ABRA_KUKAC_JEL;
     }
-    
-    private static final String RESET = "\u001B[0m";
-    private static final String RED = "\u001B[31m";
-    private static final String BLUE = "\u001B[34m";
-    private static final String GREEN = "\u001B[32m";
-    
-    private String szin;
+
+//    private String szin;
     private String szinKod;
     private String megtettUt;
     private boolean gyorsito;
+    private SzinKodok szin;
 
-    public Csiga(){
-       this(RESET);
+    public Csiga() {
+        this(SzinKodok.PIROS, "", false);
     }
-    public Csiga(String szin) {
+
+    public Csiga(SzinKodok szin) {
+        this(szin, "", false);
+    }
+
+    public Csiga(SzinKodok szin, String megtettUt, boolean gyorsito) {
         this.szin = szin;
-        setSzinKod();
-        megtettUt = "";
-        gyorsito = false;
+        this.megtettUt = megtettUt;
+        this.gyorsito = gyorsito;
+        this.szinKod = szin.getKod();
     }
 
-    public String getSzin() {
+    public SzinKodok getSzin() {
         return szin;
     }
 
@@ -63,24 +65,16 @@ public class Csiga {
     public void setGyorsito(boolean gyorsito) {
         this.gyorsito = gyorsito;
     }
-    
-    private void setSzinKod() {
-        switch(szin){
-            default: 
-                szinKod = RED;
-                break;
-            case "piros":
-                szinKod = RED;
-                break;
-            case "kék":
-                szinKod = BLUE;
-                break;
-            case "zöld":
-                szinKod = GREEN;
-                break;
-        }
-    }
 
+//    private void setSzinKod() {
+//        this.szinKod = this.szin.getKod();
+////        switch (szin) {
+////            default -> szinKod = RED;
+////            case PIROS -> szinKod = RED;
+////            case KEK -> szinKod = BLUE;
+////            case ZOLD -> szinKod = GREEN;
+////        }
+//    }
     @Override
     public String toString() {
         return "Csiga{" + "szin=" + szin + ", szinKod=" + szinKod + ", megtettUt=" + megtettUt + ", gyorsito=" + gyorsito + '}';
@@ -108,14 +102,14 @@ public class Csiga {
         return Objects.equals(this.szin, other.szin);
     }
 
-    public void megy(){
-        int tav = (int)(Math.random()*4);
-        tav = gyorsito ? tav*2 : tav;
+    public void megy() {
+        int tav = (int) (Math.random() * 4);
+        tav = gyorsito ? tav * 2 : tav;
         tav = gyorsito && tav == 0 ? 1 : tav;
         char jel = gyorsito ? Csiga.UT_DUPLA : Csiga.UT_SZIMPLA;
         for (int i = 0; i < tav; i++) {
             megtettUt += jel;
         }
     }
-    
+
 }
